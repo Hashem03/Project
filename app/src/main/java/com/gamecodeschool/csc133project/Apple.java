@@ -8,6 +8,20 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import java.util.Random;
 
+
+//
+enum AppleType {
+    GOOD(5), BAD(2);
+
+    private final int pointVal;
+    AppleType(int pointVal){
+        this.pointVal = pointVal;
+    }
+    public int getPointVal() {
+        return pointVal;
+    }
+}
+
 class Apple {
 
     // The location of the apple on the grid
@@ -18,6 +32,7 @@ class Apple {
     // to spawn an apple
     private Point mSpawnRange;
     private int mSize;
+    private AppleType type;
 
     // An image to represent the apple
     private Bitmap mBitmapApple;
@@ -34,9 +49,12 @@ class Apple {
 
         // Load the image to the bitmap
         mBitmapApple = BitmapFactory.decodeResource(context.getResources(), R.drawable.apple);
-
         // Resize the bitmap
         mBitmapApple = Bitmap.createScaledBitmap(mBitmapApple, s, s, false);
+
+        // the type of apple is randomly selected to be either good or bad
+        Random rand = new Random();
+        type = rand.nextBoolean() ? AppleType.GOOD : AppleType.BAD;
     }
 
     // This is called every time an apple is eaten
