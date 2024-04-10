@@ -9,7 +9,10 @@ import android.graphics.Point;
 import java.util.Random;
 
 
-//
+/**
+ * Apple Type determines how many points the consumed apple is worth
+ * Adds randomness to the game by adding different value types to the apple
+ */
 enum AppleType {
     GOOD(5), BAD(2);
 
@@ -76,6 +79,11 @@ class Apple {
         canvas.drawBitmap(mBitmapApple,
                 location.x * mSize, location.y * mSize, paint);
 
+    }
+
+    // return the point value of the apple type
+    int getPoints() {
+        return type.getPointVal();
     }
 
 }
