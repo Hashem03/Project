@@ -11,8 +11,7 @@ import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
-class Snake {
-
+class Snake extends GameObject implements Movable, Collidable {
     // The location in the grid of all the segments
     private ArrayList<Point> segmentLocations;
 
@@ -45,7 +44,7 @@ class Snake {
 
 
     Snake(Context context, Point mr, int ss) {
-
+        super(new Point(mr.x / 2, mr.y / 2), ss);
         // Initialize our ArrayList
         segmentLocations = new ArrayList<>();
 
@@ -126,8 +125,8 @@ class Snake {
         segmentLocations.add(new Point(w / 2, h / 2));
     }
 
-
-    void move() {
+    @Override
+    public void move() {
         // Move the body
         // Start at the back and move it
         // to the position of the segment in front of it
@@ -163,7 +162,11 @@ class Snake {
         }
 
     }
-
+    @Override
+    public boolean checkCollision(Point location) {
+        // Implementation to detect collision with walls or itself
+        return detectDeath();
+    }
     boolean detectDeath() {
         // Has the snake died?
         boolean dead = false;
@@ -204,8 +207,8 @@ class Snake {
         }
         return false;
     }
-
-    void draw(Canvas canvas, Paint paint) {
+    @Override
+    public void draw(Canvas canvas, Paint paint) {
 
         // Don't run this code if ArrayList has nothing in it
         if (!segmentLocations.isEmpty()) {
