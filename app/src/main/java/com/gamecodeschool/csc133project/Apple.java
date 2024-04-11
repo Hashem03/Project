@@ -49,7 +49,6 @@ class Apple {
     // to spawn an apple
     private Point mSpawnRange;
     private int mSize;
-    private AppleType type;
 
     // An image to represent the apple
     private Bitmap mBitmapApple;
@@ -83,7 +82,7 @@ class Apple {
 
         // the type of apple is randomly selected to be either good or bad
         Random rand = new Random();
-        type = rand.nextBoolean() ? AppleType.GOOD : AppleType.BAD;
+        AppleType type = rand.nextBoolean() ? AppleType.GOOD : AppleType.BAD;
     }
 
     // This is called every time an apple is eaten
