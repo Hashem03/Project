@@ -48,6 +48,9 @@ class SnakeGame extends SurfaceView implements Runnable{
     // And an apple
     private Apple mApple;
 
+    //    Adding an Apple icon to be displayed beside the players score
+    private Apple appleIcon;
+
 
     // This is the constructor method that gets called
     // from SnakeActivity
@@ -102,6 +105,11 @@ class SnakeGame extends SurfaceView implements Runnable{
                 new Point(NUM_BLOCKS_WIDE,
                         mNumBlocksHigh),
                 blockSize);
+
+        // Call constructors to initialize the apple icon object, this is icon for the players score
+        appleIcon = new Apple(context, new Point(NUM_BLOCKS_WIDE,
+                mNumBlocksHigh),
+                200);
 
     }
 
@@ -208,7 +216,9 @@ class SnakeGame extends SurfaceView implements Runnable{
             mPaint.setTextSize(120);
 
             // Draw the score
-            mCanvas.drawText("" + mScore, 20, 120, mPaint);
+            mApple.draw(mCanvas, mPaint);
+            appleIcon.drawIcon(mCanvas, mPaint, 0,0);
+            mCanvas.drawText(": " + mScore, 180, 170, mPaint);
 
             // Draw the apple and the snake
             mApple.draw(mCanvas, mPaint);
