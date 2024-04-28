@@ -39,16 +39,16 @@ enum AppleType {
 /**
  * Represents an apple object in the game
  */
-class Apple {
+class Apple extends GameObject {
 
     // The location of the apple on the grid
     // Not in pixels
-    private Point location = new Point();
+    //private Point location = new Point();
 
     // The range of values we can choose from
     // to spawn an apple
     private Point mSpawnRange;
-    private int mSize;
+    //private int mSize;
 
     // An image to represent the apple
     private Bitmap mBitmapApple;
@@ -63,9 +63,9 @@ class Apple {
      * @param size          The size of the apple
      */
     Apple(Context context, Point sr, int size){
-
+        super((new Point()), size);
         mSpawnRange = sr;
-        mSize = size;
+        //mSize = size;
         location.x = -10;
 
         // Load the image to the bitmap
@@ -101,18 +101,19 @@ class Apple {
      * Getter for the location of the apple
      * @return      The location point on the bitmap of the apple
      */
-    Point getLocation(){
+    /*Point getLocation(){
         return location;
-    }
+    }*/
 
     /**
      * Draw the apple on the canvas
      * @param canvas        The canvas to draw the snake on
      * @param paint         The paint obj used for drawing
      */
-    void draw(Canvas canvas, Paint paint){
+    @Override
+    public void draw(Canvas canvas, Paint paint){
         canvas.drawBitmap(mBitmapApple,
-                location.x * mSize, location.y * mSize, paint);
+                location.x * size, location.y * size, paint);
 
     }
 }
