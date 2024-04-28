@@ -11,7 +11,8 @@ import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
-class Snake extends GameObject implements Movable, Collidable {
+class Snake extends Move{
+
     // The location in the grid of all the segments
     private ArrayList<Point> segmentLocations;
 
@@ -26,12 +27,12 @@ class Snake extends GameObject implements Movable, Collidable {
     private int halfWayPoint;
 
     // For tracking movement Heading
-    private enum Heading {
+    enum Heading {
         UP, RIGHT, DOWN, LEFT
     }
 
     // Start by heading to the right
-    private Heading heading = Heading.RIGHT;
+    protected Heading heading = Heading.RIGHT;
 
     // A bitmap for each direction the head can face
     private Bitmap mBitmapHeadRight;
@@ -42,9 +43,11 @@ class Snake extends GameObject implements Movable, Collidable {
     // A bitmap for the body
     private Bitmap mBitmapBody;
 
+    private Move move = new Move();
+    private DrawSnake drawsnake = new DrawSnake();
 
     Snake(Context context, Point mr, int ss) {
-        super(new Point(mr.x / 2, mr.y / 2), ss);
+
         // Initialize our ArrayList
         segmentLocations = new ArrayList<>();
 
@@ -125,178 +128,73 @@ class Snake extends GameObject implements Movable, Collidable {
         segmentLocations.add(new Point(w / 2, h / 2));
     }
 
-    @Override
-    public void move() {
-        // Move the body
-        // Start at the back and move it
-        // to the position of the segment in front of it
-        for (int i = segmentLocations.size() - 1; i > 0; i--) {
 
-            // Make it the same value as the next segment
-            // going forwards towards the head
-            segmentLocations.get(i).x = segmentLocations.get(i - 1).x;
-            segmentLocations.get(i).y = segmentLocations.get(i - 1).y;
-        }
-
+    void move() {
+        move.initiate_movement(segmentLocations);
         // Move the head in the appropriate heading
         // Get the existing head position
         Point p = segmentLocations.get(0);
-
         // Move it appropriately
-        switch (heading) {
-            case UP:
-                p.y--;
-                break;
-
-            case RIGHT:
-                p.x++;
-                break;
-
-            case DOWN:
-                p.y++;
-                break;
-
-            case LEFT:
-                p.x--;
-                break;
-        }
-
+        move.moveDirection(p, heading);
     }
-    @Override
-    public boolean checkCollision(Point location) {
-        // Implementation to detect collision with walls or itself
-        return detectDeath();
-    }
+
+
     boolean detectDeath() {
         // Has the snake died?
         boolean dead = false;
 
         // Hit any of the screen edges
-        if (segmentLocations.get(0).x == -1 ||
+        boolean out_of_bounds = segmentLocations.get(0).x == -1 ||
                 segmentLocations.get(0).x > mMoveRange.x ||
                 segmentLocations.get(0).y == -1 ||
-                segmentLocations.get(0).y > mMoveRange.y) {
-
+                segmentLocations.get(0).y > mMoveRange.y;
+        if (out_of_bounds) {
             dead = true;
+            return dead;
         }
-
-        // Eaten itself?
-        for (int i = segmentLocations.size() - 1; i > 0; i--) {
-            // Have any of the sections collided with the head
-            if (segmentLocations.get(0).x == segmentLocations.get(i).x &&
-                    segmentLocations.get(0).y == segmentLocations.get(i).y) {
-
-                dead = true;
-            }
-        }
+        dead = eaten_itself();
         return dead;
     }
 
-    boolean checkDinner(Point l) {
-        //if (snakeXs[0] == l.x && snakeYs[0] == l.y) {
-        if (segmentLocations.get(0).x == l.x &&
-                segmentLocations.get(0).y == l.y) {
+    boolean eaten_itself(){
+        // Eaten itself?
+        for (int i = segmentLocations.size() - 1; i > 0; i--) {
+            // Have any of the sections collided with the head
+            boolean head_collision = segmentLocations.get(0).x == segmentLocations.get(i).x &&
+                    segmentLocations.get(0).y == segmentLocations.get(i).y;
+            if (head_collision) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-            // Add a new Point to the list
-            // located off-screen.
-            // This is OK because on the next call to
-            // move it will take the position of
-            // the segment in front of it
+    boolean checkDinner(Point l) {
+        boolean coordinates_match = segmentLocations.get(0).x == l.x &&
+                segmentLocations.get(0).y == l.y;
+        if (coordinates_match) {
             segmentLocations.add(new Point(-10, -10));
             return true;
         }
         return false;
     }
-    @Override
-    public void draw(Canvas canvas, Paint paint) {
 
+    void draw(Canvas canvas, Paint paint) {
+        drawsnake.setVals(canvas, paint, mSegmentSize, segmentLocations);
+        drawsnake.setBitmapVals(mBitmapHeadRight, mBitmapHeadLeft, mBitmapHeadUp, mBitmapHeadDown);
+        drawsnake.draw_object(mBitmapBody, heading);
         // Don't run this code if ArrayList has nothing in it
-        if (!segmentLocations.isEmpty()) {
-            // All the code from this method goes here
-            // Draw the head
-            switch (heading) {
-                case RIGHT:
-                    canvas.drawBitmap(mBitmapHeadRight,
-                            segmentLocations.get(0).x
-                                    * mSegmentSize,
-                            segmentLocations.get(0).y
-                                    * mSegmentSize, paint);
-                    break;
 
-                case LEFT:
-                    canvas.drawBitmap(mBitmapHeadLeft,
-                            segmentLocations.get(0).x
-                                    * mSegmentSize,
-                            segmentLocations.get(0).y
-                                    * mSegmentSize, paint);
-                    break;
-
-                case UP:
-                    canvas.drawBitmap(mBitmapHeadUp,
-                            segmentLocations.get(0).x
-                                    * mSegmentSize,
-                            segmentLocations.get(0).y
-                                    * mSegmentSize, paint);
-                    break;
-
-                case DOWN:
-                    canvas.drawBitmap(mBitmapHeadDown,
-                            segmentLocations.get(0).x
-                                    * mSegmentSize,
-                            segmentLocations.get(0).y
-                                    * mSegmentSize, paint);
-                    break;
-            }
-
-            // Draw the snake body one block at a time
-            for (int i = 1; i < segmentLocations.size(); i++) {
-                canvas.drawBitmap(mBitmapBody,
-                        segmentLocations.get(i).x
-                                * mSegmentSize,
-                        segmentLocations.get(i).y
-                                * mSegmentSize, paint);
-            }
-        }
     }
-
 
     // Handle changing direction
     void switchHeading(MotionEvent motionEvent) {
 
         // Is the tap on the right hand side?
         if (motionEvent.getX() >= halfWayPoint) {
-            switch (heading) {
-                // Rotate right
-                case UP:
-                    heading = Heading.RIGHT;
-                    break;
-                case RIGHT:
-                    heading = Heading.DOWN;
-                    break;
-                case DOWN:
-                    heading = Heading.LEFT;
-                    break;
-                case LEFT:
-                    heading = Heading.UP;
-                    break;
-
-            }
+            heading = move.rotate_right(heading);
         } else {
-            // Rotate left
-            switch (heading) {
-                case UP:
-                    heading = Heading.LEFT;
-                    break;
-                case LEFT:
-                    heading = Heading.DOWN;
-                    break;
-                case DOWN:
-                    heading = Heading.RIGHT;
-                    break;
-                case RIGHT:
-                    heading = Heading.UP;
-                    break;
-            }
+            heading = move.rotate_left(heading);
         }
     }
 }
