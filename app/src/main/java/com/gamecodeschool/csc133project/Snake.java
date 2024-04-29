@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class Snake extends Move{
 
@@ -196,5 +197,15 @@ class Snake extends Move{
         } else {
             heading = move.rotate_left(heading);
         }
+    }
+    public boolean checkCollide(Wall mWall) {
+        // Assuming Wall has a method getLocation() to get its position
+        Point wallLocation = mWall.getLocation();
+        Point headLocation = segmentLocations.get(0); // Get the head of the snake
+
+        return headLocation.equals(wallLocation);
+    }
+    public List<Point> getSnakeBody() {
+        return segmentLocations;
     }
 }
