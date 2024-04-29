@@ -52,8 +52,8 @@ public class Wall extends GameObject{
     public void draw(Canvas canvas, Paint paint)
     {
         if (mBitmapWall != null) {
-            int left = location.x * size - mBitmapWall.getWidth() / 2;
-            int top = location.y * size - mBitmapWall.getHeight() / 2;
+            int left = location.x * size;
+            int top = location.y * size;
             canvas.drawBitmap(mBitmapWall, left, top, null);
         }
     }
