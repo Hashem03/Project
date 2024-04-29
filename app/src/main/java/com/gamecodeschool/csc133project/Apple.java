@@ -119,4 +119,18 @@ class Apple extends GameObject {
                 location.x * size, location.y * size, paint);
 
     }
+    /**
+     *
+     * this method draws a apple icon next to the score
+     * @param canvas        The canvas to draw the snake on
+     * @param paint         The paint obj used for drawing
+     * @param x             X- axis location to display the apple on the screen
+     * @param y             Y- axis location to display the apple on the screen
+     */
+    public void drawIcon(Canvas canvas, Paint paint, int x, int y){
+        canvas.drawBitmap(mBitmapApple,
+                x,y, paint);
+
+    }
+
 }
