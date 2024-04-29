@@ -47,6 +47,7 @@ class SnakeGame extends SurfaceView implements Runnable{
     private Snake mSnake;
     // And an apple
     private Apple mApple;
+    private Wall mWall;
 
 
     // This is the constructor method that gets called
@@ -102,7 +103,7 @@ class SnakeGame extends SurfaceView implements Runnable{
                 new Point(NUM_BLOCKS_WIDE,
                         mNumBlocksHigh),
                 blockSize);
-
+        mWall = new Wall(context, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), blockSize);
     }
 
 
@@ -114,7 +115,7 @@ class SnakeGame extends SurfaceView implements Runnable{
 
         // Get the apple ready for dinner
         mApple.spawn();
-
+        mWall.spawn(mSnake, mApple);
         // Reset the mScore
         mScore = 0;
 
@@ -169,13 +170,15 @@ class SnakeGame extends SurfaceView implements Runnable{
 
         // Move the snake
         mSnake.move();
+        if (mSnake.checkCollide(mWall)) {
+            mSP.play(mCrashID, 1, 1, 0, 0, 1);
 
-        // Did the head of the snake eat the apple?
-        if(mSnake.checkDinner(mApple.getLocation())){
+            mPaused =true;
+        }/* Did the head of the snake eat the apple?*/else if(mSnake.checkDinner(mApple.getLocation())){
             // This reminds me of Edge of Tomorrow.
             // One day the apple will be ready!
             mApple.spawn();
-
+            mWall.spawn(mSnake,mApple);
             // Add to  mScore
             mScore = mScore + 1;
 
@@ -213,7 +216,7 @@ class SnakeGame extends SurfaceView implements Runnable{
             // Draw the apple and the snake
             mApple.draw(mCanvas, mPaint);
             mSnake.draw(mCanvas, mPaint);
-
+            mWall.draw(mCanvas, mPaint);
             // Draw some text while paused
             if(mPaused){
 
