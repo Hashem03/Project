@@ -176,7 +176,7 @@ class SnakeGame extends SurfaceView implements Runnable{
         // Move the snake
         mSnake.move();
         if (mSnake.checkCollide(mWall)) {
-            mSP.play(mCrashID, 1, 1, 0, 0, 1);
+            audioStrategy.playCrashSound();
 
             mPaused =true;
         }/* Did the head of the snake eat the apple?*/else if(mSnake.checkDinner(mApple.getLocation())){
