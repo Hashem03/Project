@@ -244,7 +244,7 @@ class SnakeGame extends SurfaceView implements Runnable{
                 //mCanvas.drawText("Tap To Play!", 200, 700, mPaint);
                 mCanvas.drawText(getResources().
                                 getString(R.string.tap_to_play),
-                        850, 700, mPaint);
+                        850, 750, mPaint);
             }
 
 
