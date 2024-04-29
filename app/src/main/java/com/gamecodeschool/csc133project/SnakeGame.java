@@ -78,10 +78,10 @@ class SnakeGame extends SurfaceView implements Runnable{
             AssetFileDescriptor descriptor;
 
             // Prepare the sounds in memory
-            descriptor = assetManager.openFd("get_apple.ogg");
+            descriptor = assetManager.openFd("get_apple.mp3");
             mEat_ID = mSP.load(descriptor, 0);
 
-            descriptor = assetManager.openFd("snake_death.ogg");
+            descriptor = assetManager.openFd("snake_death.mp3");
             mCrashID = mSP.load(descriptor, 0);
 
         } catch (IOException e) {
@@ -201,7 +201,7 @@ class SnakeGame extends SurfaceView implements Runnable{
             mCanvas = mSurfaceHolder.lockCanvas();
 
             // Fill the screen with a color
-            mCanvas.drawColor(Color.argb(255, 26, 128, 182));
+            mCanvas.drawColor(Color.BLACK); // Set background to black
 
             // Set the size and color of the mPaint for the text
             mPaint.setColor(Color.argb(255, 255, 255, 255));
