@@ -6,8 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
-import java.util.Random;
 
+import java.util.Random;
 
 /**
  * Apple Type determines how many points the consumed apple is worth
@@ -21,14 +21,16 @@ enum AppleType {
 
     /**
      * Construct an AppleType with a point value
+     *
      * @param pointVal the point value of the apple type
      */
-    AppleType(int pointVal){
+    AppleType(int pointVal) {
         this.pointVal = pointVal;
     }
 
     /**
      * Get the point value of the apple type
+     *
      * @return point value of the apple
      */
     public int getPointVal() {
@@ -58,11 +60,11 @@ class Apple extends GameObject {
     /**
      * Initialize an instance of an Apple
      *
-     * @param context       The application context
-     * @param sr            The spawn range for the apple
-     * @param size          The size of the apple
+     * @param context The application context
+     * @param sr      The spawn range for the apple
+     * @param size    The size of the apple
      */
-    Apple(Context context, Point sr, int size){
+    Apple(Context context, Point sr, int size) {
         super((new Point()), size);
         mSpawnRange = sr;
         //mSize = size;
@@ -71,7 +73,7 @@ class Apple extends GameObject {
         // Load the image to the bitmap
         mBitmapApple = BitmapFactory.decodeResource(
                 context.getResources(),
-                R.drawable.apple
+                R.drawable.apple_hd
         );
         // Bitmap Resizing
         mBitmapApple = Bitmap.createScaledBitmap(
@@ -88,9 +90,9 @@ class Apple extends GameObject {
     // This is called every time an apple is eaten
 
     /**
-     *  Spawns apple at random location within the bounds of the spawn range
+     * Spawns apple at random location within the bounds of the spawn range
      */
-    void spawn(){
+    void spawn() {
         // Choose two random values and place the apple
         Random random = new Random();
         location.x = random.nextInt(mSpawnRange.x) + 1;
@@ -99,19 +101,20 @@ class Apple extends GameObject {
 
     /**
      * Getter for the location of the apple
-     * @return      The location point on the bitmap of the apple
-     */
-    /*Point getLocation(){
-        return location;
+     * @return The location point on the bitmap of the apple
+     *
+     * Point getLocation(){
+    return location;
     }*/
 
     /**
      * Draw the apple on the canvas
-     * @param canvas        The canvas to draw the snake on
-     * @param paint         The paint obj used for drawing
+     *
+     * @param canvas The canvas to draw the snake on
+     * @param paint  The paint obj used for drawing
      */
     @Override
-    public void draw(Canvas canvas, Paint paint){
+    public void draw(Canvas canvas, Paint paint) {
         canvas.drawBitmap(mBitmapApple,
                 location.x * size, location.y * size, paint);
 

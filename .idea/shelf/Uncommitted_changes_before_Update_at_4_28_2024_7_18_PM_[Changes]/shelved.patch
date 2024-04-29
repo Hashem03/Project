@@ -1,0 +1,109 @@
+Index: app/src/main/java/com/gamecodeschool/csc133project/Snake.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.gamecodeschool.csc133project;\r\n\r\nimport android.content.Context;\r\nimport android.graphics.Bitmap;\r\nimport android.graphics.BitmapFactory;\r\nimport android.graphics.Canvas;\r\nimport android.graphics.Matrix;\r\nimport android.graphics.Paint;\r\nimport android.graphics.Point;\r\nimport android.view.MotionEvent;\r\n\r\nimport java.util.ArrayList;\r\n\r\nclass Snake extends GameObject implements Movable, Collidable {\r\n    // The location in the grid of all the segments\r\n    private ArrayList<Point> segmentLocations;\r\n\r\n    // How big is each segment of the snake?\r\n    private int mSegmentSize;\r\n\r\n    // How big is the entire grid\r\n    private Point mMoveRange;\r\n\r\n    // Where is the centre of the screen\r\n    // horizontally in pixels?\r\n    private int halfWayPoint;\r\n\r\n    // For tracking movement Heading\r\n    private enum Heading {\r\n        UP, RIGHT, DOWN, LEFT\r\n    }\r\n\r\n    // Start by heading to the right\r\n    private Heading heading = Heading.RIGHT;\r\n\r\n    // A bitmap for each direction the head can face\r\n    private Bitmap mBitmapHeadRight;\r\n    private Bitmap mBitmapHeadLeft;\r\n    private Bitmap mBitmapHeadUp;\r\n    private Bitmap mBitmapHeadDown;\r\n\r\n    // A bitmap for the body\r\n    private Bitmap mBitmapBody;\r\n\r\n\r\n    Snake(Context context, Point mr, int ss) {\r\n        super(new Point(mr.x / 2, mr.y / 2), ss);\r\n        // Initialize our ArrayList\r\n        segmentLocations = new ArrayList<>();\r\n\r\n        // Initialize the segment size and movement\r\n        // range from the passed in parameters\r\n        mSegmentSize = ss;\r\n        mMoveRange = mr;\r\n\r\n        // Create and scale the bitmaps\r\n        mBitmapHeadRight = BitmapFactory\r\n                .decodeResource(context.getResources(),\r\n                        R.drawable.head);\r\n\r\n        // Create 3 more versions of the head for different headings\r\n        mBitmapHeadLeft = BitmapFactory\r\n                .decodeResource(context.getResources(),\r\n                        R.drawable.head);\r\n\r\n        mBitmapHeadUp = BitmapFactory\r\n                .decodeResource(context.getResources(),\r\n                        R.drawable.head);\r\n\r\n        mBitmapHeadDown = BitmapFactory\r\n                .decodeResource(context.getResources(),\r\n                        R.drawable.head);\r\n\r\n        // Modify the bitmaps to face the snake head\r\n        // in the correct direction\r\n        mBitmapHeadRight = Bitmap\r\n                .createScaledBitmap(mBitmapHeadRight,\r\n                        ss, ss, false);\r\n\r\n        // A matrix for scaling\r\n        Matrix matrix = new Matrix();\r\n        matrix.preScale(-1, 1);\r\n\r\n        mBitmapHeadLeft = Bitmap\r\n                .createBitmap(mBitmapHeadRight,\r\n                        0, 0, ss, ss, matrix, true);\r\n\r\n        // A matrix for rotating\r\n        matrix.preRotate(-90);\r\n        mBitmapHeadUp = Bitmap\r\n                .createBitmap(mBitmapHeadRight,\r\n                        0, 0, ss, ss, matrix, true);\r\n\r\n        // Matrix operations are cumulative\r\n        // so rotate by 180 to face down\r\n        matrix.preRotate(180);\r\n        mBitmapHeadDown = Bitmap\r\n                .createBitmap(mBitmapHeadRight,\r\n                        0, 0, ss, ss, matrix, true);\r\n\r\n        // Create and scale the body\r\n        mBitmapBody = BitmapFactory\r\n                .decodeResource(context.getResources(),\r\n                        R.drawable.body);\r\n\r\n        mBitmapBody = Bitmap\r\n                .createScaledBitmap(mBitmapBody,\r\n                        ss, ss, false);\r\n\r\n        // The halfway point across the screen in pixels\r\n        // Used to detect which side of screen was pressed\r\n        halfWayPoint = mr.x * ss / 2;\r\n    }\r\n\r\n    // Get the snake ready for a new game\r\n    void reset(int w, int h) {\r\n\r\n        // Reset the heading\r\n        heading = Heading.RIGHT;\r\n\r\n        // Delete the old contents of the ArrayList\r\n        segmentLocations.clear();\r\n\r\n        // Start with a single snake segment\r\n        segmentLocations.add(new Point(w / 2, h / 2));\r\n    }\r\n\r\n    @Override\r\n    public void move() {\r\n        // Move the body\r\n        // Start at the back and move it\r\n        // to the position of the segment in front of it\r\n        for (int i = segmentLocations.size() - 1; i > 0; i--) {\r\n\r\n            // Make it the same value as the next segment\r\n            // going forwards towards the head\r\n            segmentLocations.get(i).x = segmentLocations.get(i - 1).x;\r\n            segmentLocations.get(i).y = segmentLocations.get(i - 1).y;\r\n        }\r\n\r\n        // Move the head in the appropriate heading\r\n        // Get the existing head position\r\n        Point p = segmentLocations.get(0);\r\n\r\n        // Move it appropriately\r\n        switch (heading) {\r\n            case UP:\r\n                p.y--;\r\n                break;\r\n\r\n            case RIGHT:\r\n                p.x++;\r\n                break;\r\n\r\n            case DOWN:\r\n                p.y++;\r\n                break;\r\n\r\n            case LEFT:\r\n                p.x--;\r\n                break;\r\n        }\r\n\r\n    }\r\n    @Override\r\n    public boolean checkCollision(Point location) {\r\n        // Implementation to detect collision with walls or itself\r\n        return detectDeath();\r\n    }\r\n    boolean detectDeath() {\r\n        // Has the snake died?\r\n        boolean dead = false;\r\n\r\n        // Hit any of the screen edges\r\n        if (segmentLocations.get(0).x == -1 ||\r\n                segmentLocations.get(0).x > mMoveRange.x ||\r\n                segmentLocations.get(0).y == -1 ||\r\n                segmentLocations.get(0).y > mMoveRange.y) {\r\n\r\n            dead = true;\r\n        }\r\n\r\n        // Eaten itself?\r\n        for (int i = segmentLocations.size() - 1; i > 0; i--) {\r\n            // Have any of the sections collided with the head\r\n            if (segmentLocations.get(0).x == segmentLocations.get(i).x &&\r\n                    segmentLocations.get(0).y == segmentLocations.get(i).y) {\r\n\r\n                dead = true;\r\n            }\r\n        }\r\n        return dead;\r\n    }\r\n\r\n    boolean checkDinner(Point l) {\r\n        //if (snakeXs[0] == l.x && snakeYs[0] == l.y) {\r\n        if (segmentLocations.get(0).x == l.x &&\r\n                segmentLocations.get(0).y == l.y) {\r\n\r\n            // Add a new Point to the list\r\n            // located off-screen.\r\n            // This is OK because on the next call to\r\n            // move it will take the position of\r\n            // the segment in front of it\r\n            segmentLocations.add(new Point(-10, -10));\r\n            return true;\r\n        }\r\n        return false;\r\n    }\r\n    @Override\r\n    public void draw(Canvas canvas, Paint paint) {\r\n\r\n        // Don't run this code if ArrayList has nothing in it\r\n        if (!segmentLocations.isEmpty()) {\r\n            // All the code from this method goes here\r\n            // Draw the head\r\n            switch (heading) {\r\n                case RIGHT:\r\n                    canvas.drawBitmap(mBitmapHeadRight,\r\n                            segmentLocations.get(0).x\r\n                                    * mSegmentSize,\r\n                            segmentLocations.get(0).y\r\n                                    * mSegmentSize, paint);\r\n                    break;\r\n\r\n                case LEFT:\r\n                    canvas.drawBitmap(mBitmapHeadLeft,\r\n                            segmentLocations.get(0).x\r\n                                    * mSegmentSize,\r\n                            segmentLocations.get(0).y\r\n                                    * mSegmentSize, paint);\r\n                    break;\r\n\r\n                case UP:\r\n                    canvas.drawBitmap(mBitmapHeadUp,\r\n                            segmentLocations.get(0).x\r\n                                    * mSegmentSize,\r\n                            segmentLocations.get(0).y\r\n                                    * mSegmentSize, paint);\r\n                    break;\r\n\r\n                case DOWN:\r\n                    canvas.drawBitmap(mBitmapHeadDown,\r\n                            segmentLocations.get(0).x\r\n                                    * mSegmentSize,\r\n                            segmentLocations.get(0).y\r\n                                    * mSegmentSize, paint);\r\n                    break;\r\n            }\r\n\r\n            // Draw the snake body one block at a time\r\n            for (int i = 1; i < segmentLocations.size(); i++) {\r\n                canvas.drawBitmap(mBitmapBody,\r\n                        segmentLocations.get(i).x\r\n                                * mSegmentSize,\r\n                        segmentLocations.get(i).y\r\n                                * mSegmentSize, paint);\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n    // Handle changing direction\r\n    void switchHeading(MotionEvent motionEvent) {\r\n\r\n        // Is the tap on the right hand side?\r\n        if (motionEvent.getX() >= halfWayPoint) {\r\n            switch (heading) {\r\n                // Rotate right\r\n                case UP:\r\n                    heading = Heading.RIGHT;\r\n                    break;\r\n                case RIGHT:\r\n                    heading = Heading.DOWN;\r\n                    break;\r\n                case DOWN:\r\n                    heading = Heading.LEFT;\r\n                    break;\r\n                case LEFT:\r\n                    heading = Heading.UP;\r\n                    break;\r\n\r\n            }\r\n        } else {\r\n            // Rotate left\r\n            switch (heading) {\r\n                case UP:\r\n                    heading = Heading.LEFT;\r\n                    break;\r\n                case LEFT:\r\n                    heading = Heading.DOWN;\r\n                    break;\r\n                case DOWN:\r\n                    heading = Heading.RIGHT;\r\n                    break;\r\n                case RIGHT:\r\n                    heading = Heading.UP;\r\n                    break;\r\n            }\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/gamecodeschool/csc133project/Snake.java b/app/src/main/java/com/gamecodeschool/csc133project/Snake.java
+--- a/app/src/main/java/com/gamecodeschool/csc133project/Snake.java	
++++ b/app/src/main/java/com/gamecodeschool/csc133project/Snake.java	
+@@ -10,6 +10,7 @@
+ import android.view.MotionEvent;
+ 
+ import java.util.ArrayList;
++import java.util.List;
+ 
+ class Snake extends GameObject implements Movable, Collidable {
+     // The location in the grid of all the segments
+@@ -191,6 +192,13 @@
+         }
+         return dead;
+     }
++    public boolean checkCollide(Wall mWall) {
++        // Assuming Wall has a method getLocation() to get its position
++        Point wallLocation = mWall.getLocation();
++        Point headLocation = segmentLocations.get(0); // Get the head of the snake
++
++        return headLocation.equals(wallLocation);
++    }
+ 
+     boolean checkDinner(Point l) {
+         //if (snakeXs[0] == l.x && snakeYs[0] == l.y) {
+@@ -299,4 +307,8 @@
+             }
+         }
+     }
++    public List<Point> getSnakeBody() {
++        return segmentLocations;
++    }
++
+ }
+Index: app/src/main/java/com/gamecodeschool/csc133project/Wall.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/gamecodeschool/csc133project/Wall.java b/app/src/main/java/com/gamecodeschool/csc133project/Wall.java
+new file mode 100644
+--- /dev/null	
++++ b/app/src/main/java/com/gamecodeschool/csc133project/Wall.java	
+@@ -0,0 +1,58 @@
++package com.gamecodeschool.csc133project;
++
++
++import android.content.Context;
++import android.graphics.Bitmap;
++import android.graphics.BitmapFactory;
++import android.graphics.Canvas;
++import android.graphics.Paint;
++import android.graphics.Point;
++import android.graphics.Color;
++import java.util.Random;
++
++public class Wall extends GameObject{
++    private Point mSpawnRange;
++    private Context mContext;
++
++    Wall(Context context, Point sr, int size) {
++        super((new Point()), size);
++        mContext = context;
++        mSpawnRange = sr;
++    }
++    void spawn(Snake snake, Apple apple) {
++        Random random = new Random();
++        boolean valid;
++        do {
++            valid = true;
++            location.x = random.nextInt(mSpawnRange.x) + 1;
++            location.y = random.nextInt(mSpawnRange.y - 1) + 1;
++
++            // Check for overlap with snake
++            for (Point p : snake.getSnakeBody()) {
++                if (p.equals(location)) {
++                    valid = false;
++                    break;
++                }
++            }
++
++            // Check for overlap with apple
++            if (apple.getLocation().equals(location)) {
++                valid = false;
++            }
++        } while (!valid);
++    }
++    @Override
++    public void draw(Canvas canvas, Paint paint)
++    {
++        paint.setColor(Color.BLACK);
++
++        // Calculate wall position and size
++        int left = location.x - size / 2;
++        int top = location.y - size / 2;
++        int right = location.x + size / 2;
++        int bottom = location.y + size / 2;
++
++        // Draw the wall as a 2x2 black rectangle
++        canvas.drawRect(left, top, right, bottom, paint);
++    }
++}
