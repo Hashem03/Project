@@ -46,6 +46,20 @@ public class Wall extends GameObject{
             if (apple.getLocation().equals(location)) {
                 valid = false;
             }
+            /*if (listOfObjects[i] instanceof Banana)
+            {
+                Banana tempB = listOfObjects[i]
+                if (tempB.getLocation().equals(location)){
+                    valid = false;
+                }
+            }
+            if (listOfObjects[i] instanceof Wall)
+            {
+                Wall tempW = listOfObjects[i]
+                if (tempW.getLocation().equals(location)){
+                    valid = false;
+                }
+            }*/
         } while (!valid);
     }
     @Override
