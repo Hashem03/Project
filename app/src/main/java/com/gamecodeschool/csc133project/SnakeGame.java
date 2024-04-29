@@ -26,10 +26,12 @@ class SnakeGame extends SurfaceView implements Runnable{
     private volatile boolean mPlaying = false;
     private volatile boolean mPaused = true;
 
+    private AudioStrategy audioStrategy;
+
     // for playing sound effects
-    private SoundPool mSP;
-    private int mEat_ID = -1;
-    private int mCrashID = -1;
+    //private SoundPool mSP;
+//    private int mEat_ID = -1;
+//    private int mCrashID = -1;
 
     // The size in segments of the playable area
     private final int NUM_BLOCKS_WIDE = 40;
@@ -60,34 +62,37 @@ class SnakeGame extends SurfaceView implements Runnable{
         // How many blocks of the same size will fit into the height
         mNumBlocksHigh = size.y / blockSize;
 
+
+        this.audioStrategy = new BasicAudioStrategy(context); // Assuming BasicAudioStrategy is your strategy implementation class
+
         // Initialize the SoundPool
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build();
-
-            mSP = new SoundPool.Builder()
-                    .setMaxStreams(5)
-                    .setAudioAttributes(audioAttributes)
-                    .build();
-        } else {
-            mSP = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-        }
-        try {
-            AssetManager assetManager = context.getAssets();
-            AssetFileDescriptor descriptor;
-
-            // Prepare the sounds in memory
-            descriptor = assetManager.openFd("get_apple.ogg");
-            mEat_ID = mSP.load(descriptor, 0);
-
-            descriptor = assetManager.openFd("snake_death.ogg");
-            mCrashID = mSP.load(descriptor, 0);
-
-        } catch (IOException e) {
-            // Error
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+//                    .setUsage(AudioAttributes.USAGE_MEDIA)
+//                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+//                    .build();
+//
+//            mSP = new SoundPool.Builder()
+//                    .setMaxStreams(5)
+//                    .setAudioAttributes(audioAttributes)
+//                    .build();
+//        } else {
+//            mSP = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+//        }
+//        try {
+//            AssetManager assetManager = context.getAssets();
+//            AssetFileDescriptor descriptor;
+//
+//            // Prepare the sounds in memory
+//            descriptor = assetManager.openFd("get_apple.mp3");
+//            mEat_ID = mSP.load(descriptor, 0);
+//
+//            descriptor = assetManager.openFd("snake_death.mp3");
+//            mCrashID = mSP.load(descriptor, 0);
+//
+//        } catch (IOException e) {
+//            // Error
+//        }
 
         // Initialize the drawing objects
         mSurfaceHolder = getHolder();
@@ -171,7 +176,7 @@ class SnakeGame extends SurfaceView implements Runnable{
         // Move the snake
         mSnake.move();
         if (mSnake.checkCollide(mWall)) {
-            mSP.play(mCrashID, 1, 1, 0, 0, 1);
+            audioStrategy.playCrashSound();
 
             mPaused =true;
         }/* Did the head of the snake eat the apple?*/else if(mSnake.checkDinner(mApple.getLocation())){
@@ -183,13 +188,13 @@ class SnakeGame extends SurfaceView implements Runnable{
             mScore = mScore + 1;
 
             // Play a sound
-            mSP.play(mEat_ID, 1, 1, 0, 0, 1);
+            audioStrategy.playEatSound();
         }
 
         // Did the snake die?
         if (mSnake.detectDeath()) {
             // Pause the game ready to start again
-            mSP.play(mCrashID, 1, 1, 0, 0, 1);
+            audioStrategy.playCrashSound();
 
             mPaused =true;
         }
@@ -204,7 +209,7 @@ class SnakeGame extends SurfaceView implements Runnable{
             mCanvas = mSurfaceHolder.lockCanvas();
 
             // Fill the screen with a color
-            mCanvas.drawColor(Color.argb(255, 26, 128, 182));
+            mCanvas.drawColor(Color.BLACK); // Set background to black
 
             // Set the size and color of the mPaint for the text
             mPaint.setColor(Color.argb(255, 255, 255, 255));
