@@ -1,0 +1,136 @@
+commit c47568def44df113c79332457186e28987d0786b
+Merge: 864dca0 a30d479
+Author: chris <actuallychrismendez@gmail.com>
+Date:   Sun Apr 28 20:09:04 2024 -0700
+
+    Merge remote-tracking branch 'origin/main'
+
+commit 864dca03f7496f2e108567885f902800efb83195
+Author: chris <actuallychrismendez@gmail.com>
+Date:   Sun Apr 28 20:08:05 2024 -0700
+
+    deployed snake object
+
+commit a30d479571be3f5ec555fa66ff13e5291aee81db
+Author: jaskaranrai <115901992+jaskaranrai@users.noreply.github.com>
+Date:   Sun Apr 28 20:06:22 2024 -0700
+
+    Wall works effectively
+
+commit d9f53a0c37345ab7fb34288195e4a2b1a9e32bfc
+Author: jaskaranrai <115901992+jaskaranrai@users.noreply.github.com>
+Date:   Sun Apr 28 20:03:22 2024 -0700
+
+    Wall Has been Physically added
+
+commit ff8a28c1eea81ab28b812932fa47d0f1979bb8a6
+Author: jaskaranrai <115901992+jaskaranrai@users.noreply.github.com>
+Date:   Sun Apr 28 19:43:30 2024 -0700
+
+    Wall Has been logically added
+
+commit 1be0e8329a69994571b5a1851f0a011b43cca84e
+Merge: 7bf8e30 7a7ed46
+Author: jaskaranrai <115901992+jaskaranrai@users.noreply.github.com>
+Date:   Sun Apr 28 19:38:00 2024 -0700
+
+    Merge remote-tracking branch 'origin/main'
+
+commit 7bf8e3086ae4a6b181fc70cc0a442106a80dbfee
+Author: chris <actuallychrismendez@gmail.com>
+Date:   Sun Apr 28 18:29:37 2024 -0700
+
+    added new assets
+
+commit 7a7ed4692ac44588278751f0e8987949f74d4102
+Author: chris <actuallychrismendez@gmail.com>
+Date:   Sun Apr 28 18:29:37 2024 -0700
+
+    added new assets
+
+commit a835fe2cb66e9dbb4a287251d11c8a18686a179c
+Author: Hashem03 <hashembattah2@gmail.com>
+Date:   Sun Apr 28 16:58:43 2024 -0700
+
+    Refactored Snake Class
+
+commit f585fc809113b23b736d6c2c1a6cdc2d6504badf
+Author: jaskaranrai <115901992+jaskaranrai@users.noreply.github.com>
+Date:   Sat Apr 27 22:13:13 2024 -0700
+
+    New Abstract class and full implementation
+
+commit 989cce678e2096990992a43fd2b2729d5f7cfe68
+Merge: 67b8ea8 121f0e1
+Author: jaskaranrai <115901992+jaskaranrai@users.noreply.github.com>
+Date:   Wed Apr 10 22:13:11 2024 -0700
+
+    Merge remote-tracking branch 'origin/main'
+
+commit 67b8ea87f9f95394390b3ce580490c3d4249f2c8
+Author: jaskaranrai <115901992+jaskaranrai@users.noreply.github.com>
+Date:   Wed Apr 10 22:12:58 2024 -0700
+
+    New Abstract class and full implementation
+
+commit 121f0e148fc41234d0aac36ab92e10d7be44e6c0
+Merge: 35e3767 9891feb
+Author: christian leyva <actuallychrismendez@gmail.com>
+Date:   Wed Apr 10 22:10:06 2024 -0700
+
+    Merge branch 'main' of https://github.com/Hashem03/Project
+
+commit 35e3767168c62b3831a47934b3dd87d853429028
+Author: christian leyva <actuallychrismendez@gmail.com>
+Date:   Wed Apr 10 22:07:59 2024 -0700
+
+    added git ignore
+
+commit 9891feb371cd8880f7e2c73996508e13ad0b2101
+Merge: 9da0b08 2b9b89a
+Author: jaskaranrai <115901992+jaskaranrai@users.noreply.github.com>
+Date:   Wed Apr 10 22:06:10 2024 -0700
+
+    Merge remote-tracking branch 'origin/main'
+
+commit 9da0b089777cf05b8e0d083c6a1db20ca6e6febf
+Author: jaskaranrai <115901992+jaskaranrai@users.noreply.github.com>
+Date:   Wed Apr 10 22:05:51 2024 -0700
+
+    New interfaces
+
+commit 2b9b89a4efc976bdb6aafa0ddbc2c9cf48382670
+Author: christian leyva <actuallychrismendez@gmail.com>
+Date:   Wed Apr 10 22:04:51 2024 -0700
+
+    add .gitignore
+
+commit ee2adfd8b3dc3d57ae67dc7b2abcefd55f3d12fc
+Author: christian leyva <actuallychrismendez@gmail.com>
+Date:   Wed Apr 10 14:06:30 2024 -0700
+
+    added some documentation to the Apple.java
+
+commit b1ff4e74a5e4ff95da37c9b56864d6c3d1876b79
+Author: christian leyva <actuallychrismendez@gmail.com>
+Date:   Wed Apr 10 13:56:17 2024 -0700
+
+    added a getter for the apple point type
+
+commit d181a3b58df624a2345069a99a7593f3c66047d9
+Author: christian leyva <actuallychrismendez@gmail.com>
+Date:   Wed Apr 10 13:49:29 2024 -0700
+
+    added apple type with point values
+
+commit 3917e25605d45ff2dacea3d07b16cc32f140a2f1
+Author: Hashem03 <hashembattah2@gmail.com>
+Date:   Sat Apr 6 12:15:22 2024 -0700
+
+    initial commit
+
+commit 07ab59423aee4ccd0d84069121febdcd6a9a346f
+Author: Hashem03 <hashembattah2@gmail.com>
+Date:   Sat Apr 6 12:04:25 2024 -0700
+
+    first commit
