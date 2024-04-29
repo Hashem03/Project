@@ -13,11 +13,18 @@ import java.util.Random;
 public class Wall extends GameObject{
     private Point mSpawnRange;
     private Context mContext;
+    private Bitmap mBitmapWall;
 
     Wall(Context context, Point sr, int size) {
         super((new Point()), size);
         mContext = context;
         mSpawnRange = sr;
+        mBitmapWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
+        mBitmapWall = Bitmap.createScaledBitmap(
+                mBitmapWall,
+                size,
+                size,
+                false);
     }
     void spawn(Snake snake, Apple apple) {
         Random random = new Random();
@@ -44,15 +51,10 @@ public class Wall extends GameObject{
     @Override
     public void draw(Canvas canvas, Paint paint)
     {
-        paint.setColor(Color.BLACK);
-
-        // Calculate wall position and size
-        int left = location.x - size / 2;
-        int top = location.y - size / 2;
-        int right = location.x + size / 2;
-        int bottom = location.y + size / 2;
-
-        // Draw the wall as a 2x2 black rectangle
-        canvas.drawRect(left, top, right, bottom, paint);
+        if (mBitmapWall != null) {
+            int left = location.x * size - mBitmapWall.getWidth() / 2;
+            int top = location.y * size - mBitmapWall.getHeight() / 2;
+            canvas.drawBitmap(mBitmapWall, left, top, null);
+        }
     }
 }
