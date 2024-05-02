@@ -57,19 +57,23 @@ class Snake extends Move{
         mSegmentSize = ss;
         mMoveRange = mr;
 
-        Bitmap headBitmap = BitmapFactory
+        // Create and scale the bitmaps
+        mBitmapHeadRight = BitmapFactory
                 .decodeResource(context.getResources(),
                         R.drawable.head);
 
-        // Create and scale the bitmaps
-        mBitmapHeadRight = headBitmap;
-
         // Create 3 more versions of the head for different headings
-        mBitmapHeadLeft = headBitmap;
+        mBitmapHeadLeft = BitmapFactory
+                .decodeResource(context.getResources(),
+                        R.drawable.head);
 
-        mBitmapHeadUp = headBitmap;
+        mBitmapHeadUp = BitmapFactory
+                .decodeResource(context.getResources(),
+                        R.drawable.head);
 
-        mBitmapHeadDown = headBitmap;
+        mBitmapHeadDown = BitmapFactory
+                .decodeResource(context.getResources(),
+                        R.drawable.head);
 
         // Modify the bitmaps to face the snake head
         // in the correct direction
@@ -81,19 +85,22 @@ class Snake extends Move{
         Matrix matrix = new Matrix();
         matrix.preScale(-1, 1);
 
-        Bitmap bitmapDirection = Bitmap.createBitmap(mBitmapHeadRight,
-                0, 0, ss, ss, matrix, true);
-
-        mBitmapHeadLeft = bitmapDirection;
+        mBitmapHeadLeft = Bitmap
+                .createBitmap(mBitmapHeadRight,
+                        0, 0, ss, ss, matrix, true);
 
         // A matrix for rotating
         matrix.preRotate(-90);
-        mBitmapHeadUp = bitmapDirection;
+        mBitmapHeadUp = Bitmap
+                .createBitmap(mBitmapHeadRight,
+                        0, 0, ss, ss, matrix, true);
 
         // Matrix operations are cumulative
         // so rotate by 180 to face down
         matrix.preRotate(180);
-        mBitmapHeadDown = bitmapDirection;
+        mBitmapHeadDown = Bitmap
+                .createBitmap(mBitmapHeadRight,
+                        0, 0, ss, ss, matrix, true);
 
         // Create and scale the body
         mBitmapBody = BitmapFactory
