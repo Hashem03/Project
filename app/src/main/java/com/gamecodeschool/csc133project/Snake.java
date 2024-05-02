@@ -57,23 +57,18 @@ class Snake extends Move{
         mSegmentSize = ss;
         mMoveRange = mr;
 
-        // Create and scale the bitmaps
-        mBitmapHeadRight = BitmapFactory
+        Bitmap head = BitmapFactory
                 .decodeResource(context.getResources(),
                         R.drawable.head);
+        // Create and scale the bitmaps
+        mBitmapHeadRight = head;
 
         // Create 3 more versions of the head for different headings
-        mBitmapHeadLeft = BitmapFactory
-                .decodeResource(context.getResources(),
-                        R.drawable.head);
+        mBitmapHeadLeft = head;
 
-        mBitmapHeadUp = BitmapFactory
-                .decodeResource(context.getResources(),
-                        R.drawable.head);
+        mBitmapHeadUp = head;
 
-        mBitmapHeadDown = BitmapFactory
-                .decodeResource(context.getResources(),
-                        R.drawable.head);
+        mBitmapHeadDown = head;
 
         // Modify the bitmaps to face the snake head
         // in the correct direction
