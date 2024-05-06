@@ -1,2 +1,5 @@
-package com.gamecodeschool.csc133project;public interface GameOverListener {
+package com.gamecodeschool.csc133project;
+
+public interface GameOverListener {
+        void onRestartGame();
 }

@@ -1,5 +1,6 @@
 package com.gamecodeschool.csc133project;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -16,7 +17,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import java.io.IOException;
 
-class SnakeGame extends SurfaceView implements Runnable{
+class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
     // Objects for the game loop/thread
     private Thread mThread = null;
@@ -26,6 +27,7 @@ class SnakeGame extends SurfaceView implements Runnable{
     private volatile boolean mPlaying = false;
     private volatile boolean mPaused = true;
 
+    private boolean tap_to_play = true;
     private AudioStrategy audioStrategy;
 
     // for playing sound effects
@@ -152,6 +154,13 @@ class SnakeGame extends SurfaceView implements Runnable{
             draw();
         }
     }
+    @Override
+    public void onRestartGame() {
+        newGame();
+        mPaused = false; // Ensure the game is not paused after restarting
+    }
+
+
 
 
     // Check to see if it is time for an update
@@ -204,8 +213,11 @@ class SnakeGame extends SurfaceView implements Runnable{
         if (mSnake.detectDeath()) {
             // Pause the game ready to start again
             audioStrategy.playCrashSound();
-
+            GameOver game_over = new GameOver(mScore);
+            tap_to_play = false;
+            game_over.showGameOverScreen(getContext(),mScore,mPaused, this);
             mPaused =true;
+
         }
 
     }
@@ -242,12 +254,12 @@ class SnakeGame extends SurfaceView implements Runnable{
                 // Draw the message
                 // We will give this an international upgrade soon
                 //mCanvas.drawText("Tap To Play!", 200, 700, mPaint);
-                mCanvas.drawText(getResources().
-                                getString(R.string.tap_to_play),
-                        850, 750, mPaint);
+                if(tap_to_play) {
+                    System.out.println(tap_to_play);
+                    mCanvas.drawText(getResources().getString(R.string.tap_to_play),
+                            850, 750, mPaint);
+                }
             }
-
-
             // Unlock the mCanvas and reveal the graphics for this frame
             mSurfaceHolder.unlockCanvasAndPost(mCanvas);
         }
