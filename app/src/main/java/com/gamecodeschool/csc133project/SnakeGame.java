@@ -195,6 +195,10 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
         mSnake.move();
         if (mSnake.checkCollide(mWall)) {
             audioStrategy.playCrashSound();
+            GameOver game_over = new GameOver(mScore);
+            tap_to_play = false;
+            game_over.showGameOverScreen(getContext(),mScore,mPaused, this); // displays the showGameOverScreen when the snake would collide to the wall
+            mPaused =true;
 
             mPaused =true;
         }/* Did the head of the snake eat the apple?*/else if(mSnake.checkDinner(mApple.getLocation())){
