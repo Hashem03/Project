@@ -138,7 +138,20 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
         // Setup mNextFrameTime so an update can triggered
         mNextFrameTime = System.currentTimeMillis();
     }
+    public void StartNewGame() {
 
+        // reset the snake
+        mSnake.reset(NUM_BLOCKS_WIDE, mNumBlocksHigh);
+
+        // Get the apple ready for dinner
+        mApple.spawn();
+        mWall.spawn(mSnake, mApple);
+        // Reset the mScore
+        mScore = 0;
+
+        // Setup mNextFrameTime so an update can triggered
+        mNextFrameTime = System.currentTimeMillis();
+    }
 
     // Handles the game loop
     @Override
@@ -159,9 +172,10 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
         newGame();
         mPaused = false; // Ensure the game is not paused after restarting
     }
-
-
-
+    public void onStartGame() {
+        StartNewGame();
+        mPaused = false; // Ensure the game is not paused after restarting
+    }
 
     // Check to see if it is time for an update
     public boolean updateRequired() {
@@ -260,6 +274,11 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
                 //mCanvas.drawText("Tap To Play!", 200, 700, mPaint);
                 if(tap_to_play) {
                     System.out.println(tap_to_play);
+                    StartGame start_game = new StartGame();
+                    tap_to_play = false;
+                    // displays the showGameOverScreen when the snake would collide to the wall
+                    start_game.showStartGameScreen(getContext(), this);
+                    mPaused =true;
                     mCanvas.drawText(getResources().getString(R.string.tap_to_play),
                             850, 750, mPaint);
                 }
