@@ -45,12 +45,6 @@ public class GameOver {
                 title.setBackgroundColor(Color.BLACK); // Example background color
                 title.setTypeface(Typeface.SANS_SERIF);
 
-                /*
-                TTF customTypefaceSpan = new TTF(context);
-                SpannableString spannableString = new SpannableString(title.getText());
-                spannableString.setSpan(customTypefaceSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                title.setText(spannableString);
-*/
 
 // Set the custom title view
                 builder.setCustomTitle(title);
