@@ -267,6 +267,11 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             mSnake.draw(mCanvas, mPaint);
             mWall.draw(mCanvas, mPaint);
 
+            //delcared the LevelScore
+            int levelScore = mScore + 1;
+           // displays the levels
+            mCanvas.drawText("Level: " + levelScore, 2200, 170, mPaint);
+
             // Draw some text while paused
             if(mPaused) {
                 // Set the size and color of the mPaint for the text
