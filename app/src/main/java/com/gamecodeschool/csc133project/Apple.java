@@ -72,15 +72,15 @@ class Apple extends GameObject {
 
         // Load the image to the bitmap
         mBitmapApple = BitmapFactory.decodeResource(
-            context.getResources(),
-            R.drawable.apple_hd
+                context.getResources(),
+                R.drawable.apple_hd
         );
         // Bitmap Resizing
         mBitmapApple = Bitmap.createScaledBitmap(
-            mBitmapApple,
-            size,
-            size,
-            false);
+                mBitmapApple,
+                size,
+                size,
+                false);
 
         // the type of apple is randomly selected to be either good or bad
         Random rand = new Random();
@@ -116,7 +116,7 @@ class Apple extends GameObject {
     @Override
     public void draw(Canvas canvas, Paint paint) {
         canvas.drawBitmap(mBitmapApple,
-            location.x * size, location.y * size, paint);
+                location.x * size, location.y * size, paint);
 
     }
     /**
@@ -129,7 +129,7 @@ class Apple extends GameObject {
      */
     public void drawIcon(Canvas canvas, Paint paint, int x, int y){
         canvas.drawBitmap(mBitmapApple,
-            x,y, paint);
+                x,y, paint);
 
     }
 

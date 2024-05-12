@@ -29,30 +29,33 @@ public class StartGame {
                 @Override
                 public void run() {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("   SNAKE GAME");
-                    builder.setMessage("   ");
+                    builder.setTitle("        SNAKE GAME");
+
+                    builder.setMessage( "      Press play To Start!   ");
 
                     // Customizing the dialog layout
                     LinearLayout layout = new LinearLayout(context);
                     layout.setOrientation(LinearLayout.VERTICAL);
-                    layout.setPadding(70, 70, 70, 70);
+                    layout.setPadding(30, -10, 30, -10);
 
                     builder.setView(layout);
                     builder.setCancelable(false);
+
                     AlertDialog dialog = builder.create();
 
                     TextView messageTextView = new TextView(context);
-                    //  messageTextView.setText("Your score: " + score);
-                    messageTextView.setTextSize(18);
+                    messageTextView.setTextSize(100);
                     messageTextView.setTextColor(Color.BLACK);
-                    messageTextView.setGravity(Gravity.CENTER);
+                    messageTextView.setGravity(Gravity.LEFT);
                     layout.addView(messageTextView);
 
                     Button restartButton = new Button(context);
-                    restartButton.setText(" Start");
-                    restartButton.setTextColor(Color.BLACK);
-                    restartButton.setBackgroundColor(Color.GREEN);
-                    restartButton.setPadding(20, 10, 20, 10);
+                    restartButton.setText(" PLAY");
+                   restartButton.setTextSize(17);
+                    restartButton.setTextColor(Color.WHITE);
+                    restartButton.setBackgroundColor(Color.RED);
+                    //restartButton.setPadding(100, 200, 200, 100);
+                    restartButton.setPadding(90, 80, 90, 80);
                     restartButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

@@ -56,7 +56,6 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
     //    Adding an Apple icon to be displayed beside the players score
     private Apple appleIcon;
 
-
     // This is the constructor method that gets called
     // from SnakeActivity
     public SnakeGame(Context context, Point size) {
@@ -120,6 +119,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
         appleIcon = new Apple(context, new Point(NUM_BLOCKS_WIDE,
                 mNumBlocksHigh),
                 150);
+
     }
 
 
@@ -151,6 +151,8 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
         // Setup mNextFrameTime so an update can triggered
         mNextFrameTime = System.currentTimeMillis();
+
+
     }
 
     // Handles the game loop
@@ -174,7 +176,8 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
     }
     public void onStartGame() {
         StartNewGame();
-        mPaused = false; // Ensure the game is not paused after restarting
+        mPaused = false;
+        // Ensure the game is not paused after restarting
     }
 
     // Check to see if it is time for an update
@@ -207,6 +210,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
         // Move the snake
         mSnake.move();
+
         if (mSnake.checkCollide(mWall)) {
             audioStrategy.playCrashSound();
             GameOver game_over = new GameOver(mScore);
@@ -262,31 +266,38 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             mApple.draw(mCanvas, mPaint);
             mSnake.draw(mCanvas, mPaint);
             mWall.draw(mCanvas, mPaint);
-            // Draw some text while paused
-            if(mPaused){
 
+            // Draw some text while paused
+            if(mPaused) {
                 // Set the size and color of the mPaint for the text
-                mPaint.setColor(Color.argb(255, 255, 255, 255));
-                mPaint.setTextSize(250);
+               mPaint.setColor(Color.argb(255, 255, 255, 255));
+                mPaint.setTextSize(100);
 
                 // Draw the message
                 // We will give this an international upgrade soon
-                //mCanvas.drawText("Tap To Play!", 200, 700, mPaint);
+
                 if(tap_to_play) {
-                    System.out.println(tap_to_play);
+                    //System.out.println(tap_to_play);
                     StartGame start_game = new StartGame();
                     tap_to_play = false;
+
+
                     // displays the showGameOverScreen when the snake would collide to the wall
                     start_game.showStartGameScreen(getContext(), this);
                     mPaused =true;
-                    mCanvas.drawText(getResources().getString(R.string.tap_to_play),
-                            850, 750, mPaint);
+
                 }
+
             }
+
             // Unlock the mCanvas and reveal the graphics for this frame
             mSurfaceHolder.unlockCanvasAndPost(mCanvas);
+
+
         }
+
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
@@ -295,6 +306,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
                 if (mPaused) {
                     mPaused = false;
                     newGame();
+
 
                     // Don't want to process snake direction for this tap
                     return true;
