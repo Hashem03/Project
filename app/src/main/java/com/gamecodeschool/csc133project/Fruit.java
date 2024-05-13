@@ -1,6 +1,8 @@
 package com.gamecodeschool.csc133project;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 
 public abstract class Fruit extends GameObject {
@@ -23,6 +25,6 @@ public abstract class Fruit extends GameObject {
     this.value = value;
   }
 
-  public abstract void draw();
+  public abstract void draw(Canvas canvas, Paint paint);
 
 }

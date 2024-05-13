@@ -17,6 +17,7 @@ public class Banana extends Fruit {
     private Bitmap mBitmapBanana;
     private long mStartTime;
     private static final int DISPLAY_TIME = 4000;
+    private long getLastSpawnTime;
 
     /**
      * Constructs a new Banana object.
@@ -40,6 +41,18 @@ public class Banana extends Fruit {
             size,
             true);
     }
+    public long getLastSpawnTime() {
+        return getLastSpawnTime;
+    }
+    public void setLastSpawnTime(long lastSpawnTime) {
+        getLastSpawnTime = lastSpawnTime;
+    }
+
+    public void setVisible(boolean visible) {
+        mStartTime = visible ? System.currentTimeMillis() : 0;
+    }
+
+
 
     /**
      * Spawns the banana at a random location within the spawn range.
@@ -49,6 +62,7 @@ public class Banana extends Fruit {
         location.x = random.nextInt(mSpawnRange.x) + 1;
         location.y = random.nextInt(mSpawnRange.y) + 1;
         mStartTime = System.currentTimeMillis();
+        getLastSpawnTime = mStartTime;
     }
 
     /**
@@ -70,18 +84,10 @@ public class Banana extends Fruit {
 
     /**
      * Checks if the banana is currently visible.
-     *
      * @return true if the banana is visible, false otherwise
      */
     public boolean isVisible() {
         return (System.currentTimeMillis() - mStartTime) < DISPLAY_TIME;
     }
 
-    /**
-     * Empty implementation of the draw method.
-     */
-    @Override
-    public void draw() {
-
-    }
 }
