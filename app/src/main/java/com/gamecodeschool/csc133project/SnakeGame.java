@@ -220,16 +220,20 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
         // Move the snake
         mSnake.move();
+        for(int i = 0; i< wList.size();i++)
+        {
+            if (mSnake.checkCollide(wList.get(i))) {
+                audioStrategy.playCrashSound();
+                GameOver game_over = new GameOver(mScore);
+                tap_to_play = false;
+                game_over.showGameOverScreen(getContext(),mScore,mPaused, this); // displays the showGameOverScreen when the snake would collide to the wall
+                mPaused =true;
 
-        if (mSnake.checkCollide(mWall)) {
-            audioStrategy.playCrashSound();
-            GameOver game_over = new GameOver(mScore);
-            tap_to_play = false;
-            game_over.showGameOverScreen(getContext(),mScore,mPaused, this); // displays the showGameOverScreen when the snake would collide to the wall
-            mPaused =true;
+                mPaused =true;
+            }
+        }/* Did the head of the snake eat the apple?*/
 
-            mPaused =true;
-        }/* Did the head of the snake eat the apple?*/else if(mSnake.checkDinner(mApple.getLocation())){
+        if(mSnake.checkDinner(mApple.getLocation())){
             // This reminds me of Edge of Tomorrow.
             // One day the apple will be ready!
             mApple.spawn();
