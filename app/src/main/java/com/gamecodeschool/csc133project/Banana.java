@@ -18,6 +18,13 @@ public class Banana extends Fruit {
     private long mStartTime;
     private static final int DISPLAY_TIME = 4000;
 
+    /**
+     * Constructs a new Banana object.
+     *
+     * @param context the context of the application
+     * @param sr the spawn range for the banana
+     * @param size the size of the banana
+     */
     public Banana(Context context, Point sr, int size) {
         super((new Point()), size);
         mSpawnRange = sr;
@@ -34,6 +41,9 @@ public class Banana extends Fruit {
             true);
     }
 
+    /**
+     * Spawns the banana at a random location within the spawn range.
+     */
     public void spawn() {
         Random random = new Random();
         location.x = random.nextInt(mSpawnRange.x) + 1;
@@ -41,6 +51,12 @@ public class Banana extends Fruit {
         mStartTime = System.currentTimeMillis();
     }
 
+    /**
+     * Draws the banana on the canvas if it is visible.
+     *
+     * @param canvas the canvas to draw on
+     * @param paint the paint used for drawing
+     */
     @Override
     public void draw(Canvas canvas, Paint paint) {
         if (isVisible()) {
@@ -52,11 +68,18 @@ public class Banana extends Fruit {
         }
     }
 
-
+    /**
+     * Checks if the banana is currently visible.
+     *
+     * @return true if the banana is visible, false otherwise
+     */
     public boolean isVisible() {
         return (System.currentTimeMillis() - mStartTime) < DISPLAY_TIME;
     }
 
+    /**
+     * Empty implementation of the draw method.
+     */
     @Override
     public void draw() {
 
