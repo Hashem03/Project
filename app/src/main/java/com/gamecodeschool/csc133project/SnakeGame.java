@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import java.io.IOException;
+import java.util.*;
 
 class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
@@ -51,10 +52,15 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
     private Snake mSnake;
     // And an apple
     private Apple mApple;
+
+    private List<Wall> wList;
+
     private Wall mWall;
 
     //    Adding an Apple icon to be displayed beside the players score
     private Apple appleIcon;
+    private int mBlockSize;
+    private Context mContext;
 
     // This is the constructor method that gets called
     // from SnakeActivity
@@ -63,6 +69,9 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
         // Work out how many pixels each block is
         int blockSize = size.x / NUM_BLOCKS_WIDE;
+        mBlockSize = blockSize;
+        mContext = context;
+
         // How many blocks of the same size will fit into the height
         mNumBlocksHigh = size.y / blockSize;
 
@@ -113,7 +122,8 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
                         mNumBlocksHigh),
                 blockSize);
         mWall = new Wall(context, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), blockSize);
-
+        wList = new ArrayList<Wall>();
+        wList.add(mWall);
 
         // Call constructors to initialize the apple icon object, this is icon for the players score
         appleIcon = new Apple(context, new Point(NUM_BLOCKS_WIDE,
@@ -223,7 +233,9 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             // This reminds me of Edge of Tomorrow.
             // One day the apple will be ready!
             mApple.spawn();
-            mWall.spawn(mSnake,mApple);
+            Wall temp = new Wall(mContext, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), mBlockSize);
+            temp.spawn(mSnake,mApple);
+            wList.add(temp);
             // Add to  mScore
             mScore = mScore + 1;
 
@@ -265,7 +277,12 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             // Draw the apple and the snake
             mApple.draw(mCanvas, mPaint);
             mSnake.draw(mCanvas, mPaint);
-            mWall.draw(mCanvas, mPaint);
+
+            for(int i = 0; i< wList.size();i++)
+            {
+                wList.get(i).draw(mCanvas,mPaint);
+            }
+            //mWall.draw(mCanvas, mPaint);
 
             //delcared the LevelScore
             int levelScore = mScore + 1;
