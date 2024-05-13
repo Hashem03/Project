@@ -123,8 +123,6 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
                 blockSize);
         mWall = new Wall(context, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), blockSize);
         wList = new ArrayList<Wall>();
-        wList.add(mWall);
-
         // Call constructors to initialize the apple icon object, this is icon for the players score
         appleIcon = new Apple(context, new Point(NUM_BLOCKS_WIDE,
                 mNumBlocksHigh),
@@ -135,13 +133,15 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
     // Called to start a new game
     public void newGame() {
-
+        wList.clear();
         // reset the snake
         mSnake.reset(NUM_BLOCKS_WIDE, mNumBlocksHigh);
 
         // Get the apple ready for dinner
         mApple.spawn();
         mWall.spawn(mSnake, mApple);
+        wList.add(mWall);
+
         // Reset the mScore
         mScore = 0;
 
@@ -149,13 +149,14 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
         mNextFrameTime = System.currentTimeMillis();
     }
     public void StartNewGame() {
-
+        wList.clear();
         // reset the snake
         mSnake.reset(NUM_BLOCKS_WIDE, mNumBlocksHigh);
 
         // Get the apple ready for dinner
         mApple.spawn();
         mWall.spawn(mSnake, mApple);
+        wList.add(mWall);
         // Reset the mScore
         mScore = 0;
 
