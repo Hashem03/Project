@@ -8,9 +8,12 @@ import android.graphics.Paint;
 import android.graphics.Canvas;
 import java.util.Random;
 
-public class Banana extends GameObject {
+/**
+ * Banana class extends Fruit class
+ */
+public class Banana extends Fruit {
 
-    private Point mSpawnRange;
+    private final Point mSpawnRange;
     private Bitmap mBitmapBanana;
     private long mStartTime;
     private static final int DISPLAY_TIME = 4000;
@@ -30,12 +33,14 @@ public class Banana extends GameObject {
             size,
             true);
     }
+
     public void spawn() {
         Random random = new Random();
         location.x = random.nextInt(mSpawnRange.x) + 1;
         location.y = random.nextInt(mSpawnRange.y) + 1;
         mStartTime = System.currentTimeMillis();
     }
+
     @Override
     public void draw(Canvas canvas, Paint paint) {
         if (isVisible()) {
@@ -46,7 +51,14 @@ public class Banana extends GameObject {
                 paint);
         }
     }
+
+
     public boolean isVisible() {
         return (System.currentTimeMillis() - mStartTime) < DISPLAY_TIME;
+    }
+
+    @Override
+    public void draw() {
+
     }
 }
