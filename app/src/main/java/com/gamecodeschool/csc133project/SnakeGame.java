@@ -18,6 +18,10 @@ import android.view.SurfaceView;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * SnakeGame class extends SurfaceView and implements Runnable and GameOverListener
+ * This class is responsible for the game loop and updating the game objects
+ */
 class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
     // Objects for the game loop/thread

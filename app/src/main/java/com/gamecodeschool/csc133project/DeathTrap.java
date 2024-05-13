@@ -9,6 +9,10 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import java.util.Random;
 
+/**
+ *
+ *
+ */
 public class DeathTrap extends GameObject {
 
     private Bitmap mBitmapDeathTrap;
