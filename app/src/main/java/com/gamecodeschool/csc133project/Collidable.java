@@ -12,5 +12,5 @@ public interface Collidable {
      * @param location The location to check for a collision.
      * @return true if a collision occurred at the location, false otherwise.
      */
-    boolean checkCollision(Point location);
+    boolean checkCollide(Wall mWall);
 }
