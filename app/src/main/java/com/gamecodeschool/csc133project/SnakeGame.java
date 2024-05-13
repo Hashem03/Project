@@ -63,6 +63,8 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
     private Apple appleIcon;
     private int mBlockSize;
     private Context mContext;
+    private DeathTrap mDeathTrap;
+
 
     // This is the constructor method that gets called
     // from SnakeActivity
@@ -77,7 +79,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
         // How many blocks of the same size will fit into the height
         mNumBlocksHigh = size.y / blockSize;
 
-
+        mDeathTrap = new DeathTrap(context, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), blockSize);
         this.audioStrategy = new BasicAudioStrategy(context); // Assuming BasicAudioStrategy is your strategy implementation class
         this.audioStrategy = new BasicAudioStrategy(getContext());
         this.audioStrategy = new BasicAudioStrategy(context);
@@ -242,10 +244,17 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             }
         }/* Did the head of the snake eat the apple?*/
 
+        if (mSnake.checkDinner(mDeathTrap.getLocation())) {
+            // Show game over if the snake eats the death trap
+            GameOver game_over = new GameOver(mScore);
+            game_over.showGameOverScreen(getContext(), mScore, mPaused, this);
+            mPaused = true;
+        }
         if(mSnake.checkDinner(mApple.getLocation())){
             // This reminds me of Edge of Tomorrow.
             // One day the apple will be ready!
             mApple.spawn();
+            mGreenApple.spawn();
             Wall temp = new Wall(mContext, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), mBlockSize);
             temp.spawn(mSnake,mApple);
             wList.add(temp);
@@ -254,12 +263,16 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
             // Play a sound
             audioStrategy.playEatSound();
+            mDeathTrap.spawn();
+
         }
 
         if (mSnake.checkDinner(mGreenApple.getLocation())) {
             mScore = Math.max(0, mScore - 1); // Decrease score by 1, ensuring it doesn't go below 0
             audioStrategy.playTakeDamageSound(); // Play damage sound through the strategy interface
             mGreenApple.spawn(); // Respawn the green apple
+            mApple.spawn();
+            mDeathTrap.spawn();
         }
 
         // Did the snake die?
@@ -272,6 +285,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             mPaused =true;
 
         }
+
 
     }
 
@@ -298,6 +312,8 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             // Draw the apple and the snake
             mApple.draw(mCanvas, mPaint);
             mGreenApple.draw(mCanvas, mPaint);
+            mDeathTrap.draw(mCanvas, mPaint);
+
             mSnake.draw(mCanvas, mPaint);
 
             for(int i = 0; i< wList.size();i++)
