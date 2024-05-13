@@ -271,6 +271,9 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             mScore = Math.max(0, mScore - 1); // Decrease score by 1, ensuring it doesn't go below 0
             audioStrategy.playTakeDamageSound(); // Play damage sound through the strategy interface
             mGreenApple.spawn(); // Respawn the green apple
+            Wall temp = new Wall(mContext, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), mBlockSize);
+            temp.spawn(mSnake,mApple);
+            wList.add(temp);
             mApple.spawn();
             mDeathTrap.spawn();
         }
