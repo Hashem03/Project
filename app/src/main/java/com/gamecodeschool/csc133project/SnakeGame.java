@@ -30,6 +30,8 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
     private boolean tap_to_play = true;
     private AudioStrategy audioStrategy;
+    private GreenApple mGreenApple;
+
 
     // for playing sound effects
     //private SoundPool mSP;
@@ -77,6 +79,8 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
 
         this.audioStrategy = new BasicAudioStrategy(context); // Assuming BasicAudioStrategy is your strategy implementation class
+        this.audioStrategy = new BasicAudioStrategy(getContext());
+        this.audioStrategy = new BasicAudioStrategy(context);
 
         // Initialize the SoundPool
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -128,6 +132,9 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
                 mNumBlocksHigh),
                 150);
 
+        mGreenApple = new GreenApple(context, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), blockSize);
+
+
     }
 
 
@@ -139,6 +146,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
         // Get the apple ready for dinner
         mApple.spawn();
+        mGreenApple.spawn(); // Spawn green apple
         mWall.spawn(mSnake, mApple);
         wList.add(mWall);
 
@@ -248,6 +256,12 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             audioStrategy.playEatSound();
         }
 
+        if (mSnake.checkDinner(mGreenApple.getLocation())) {
+            mScore = Math.max(0, mScore - 1); // Decrease score by 1, ensuring it doesn't go below 0
+            audioStrategy.playTakeDamageSound(); // Play damage sound through the strategy interface
+            mGreenApple.spawn(); // Respawn the green apple
+        }
+
         // Did the snake die?
         if (mSnake.detectDeath()) {
             // Pause the game ready to start again
@@ -260,6 +274,8 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
         }
 
     }
+
+
 
 
     // Do all the drawing
@@ -281,6 +297,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
             // Draw the apple and the snake
             mApple.draw(mCanvas, mPaint);
+            mGreenApple.draw(mCanvas, mPaint);
             mSnake.draw(mCanvas, mPaint);
 
             for(int i = 0; i< wList.size();i++)

@@ -5,4 +5,6 @@ import android.graphics.Paint;
 public interface AudioStrategy {
     void playEatSound();
     void playCrashSound();
+    void playTakeDamageSound(); // Add this method
+
 }

@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,12 +42,9 @@ public class GameOver {
                 title.setText("Game Over!");
                 title.setTextSize(30);
                 title.setGravity(Gravity.CENTER);
-                title.setTextColor(Color.WHITE); // Example color
-                title.setBackgroundColor(Color.BLACK); // Example background color
+                title.setTextColor(Color.WHITE);
+                title.setBackgroundColor(Color.BLACK);
                 title.setTypeface(Typeface.SANS_SERIF);
-
-
-// Set the custom title view
                 builder.setCustomTitle(title);
 
                 LinearLayout scoreLayout = new LinearLayout(context);
@@ -55,11 +53,10 @@ public class GameOver {
                         LinearLayout.LayoutParams.WRAP_CONTENT
                 ));
                 scoreLayout.setGravity(Gravity.CENTER);
-                scoreLayout.setBackgroundColor(Color.BLACK); // White background color
-                int padding = (int) (context.getResources().getDisplayMetrics().density * 10); // Convert 10dp to pixels
-                scoreLayout.setPadding(padding, padding, padding, padding); // Add padding
+                scoreLayout.setBackgroundColor(Color.BLACK);
+                int padding = (int) (context.getResources().getDisplayMetrics().density * 10);
+                scoreLayout.setPadding(padding, padding, padding, padding);
 
-// Create a TextView for the score inside the custom layout
                 TextView scoreView = new TextView(context);
                 scoreView.setText(String.valueOf(score));
                 scoreView.setTypeface(Typeface.SANS_SERIF); // Set font to sans serif
@@ -67,17 +64,9 @@ public class GameOver {
                 scoreView.setTextSize(40);
                 scoreLayout.addView(scoreView);
 
-// Add the custom layout to the dialog layout
-
-
                 layout.addView(scoreLayout);
 
-
-// Set the custom title view
                 builder.setCustomTitle(title);
-
-
-
 
                 AlertDialog dialog = builder.create();
                 // Create a Restart button
@@ -109,14 +98,11 @@ public class GameOver {
                 });
                 layout.addView(btnExit);
 
-                // Create the AlertDialog
 
 
-                // Show the dialog
                 dialog.show();
 
 
-                // Setting custom styles for the dialog buttons
                 dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(DialogInterface dialog) {
