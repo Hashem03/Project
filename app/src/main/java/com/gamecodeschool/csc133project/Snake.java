@@ -12,6 +12,11 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Snake class extends GameObject class
+ * and implements Movable and Collidable interfaces to create a snake object
+
+ */
 class Snake extends GameObject implements Movable, Collidable{
 
     // The location in the grid of all the segments
@@ -135,21 +140,20 @@ class Snake extends GameObject implements Movable, Collidable{
     }
 
 
+    /**
+     * Detect if the snake has died
+     * @return true if the snake has died, false otherwise
+     */
     boolean detectDeath() {
         // Has the snake died?
-        boolean dead = false;
-
-        // Hit any of the screen edges
         boolean out_of_bounds = segmentLocations.get(0).x == -1 ||
                 segmentLocations.get(0).x > mMoveRange.x ||
                 segmentLocations.get(0).y == -1 ||
                 segmentLocations.get(0).y > mMoveRange.y;
         if (out_of_bounds) {
-            dead = true;
-            return dead;
+            return true;
         }
-        dead = eaten_itself();
-        return dead;
+        return eaten_itself();
     }
 
     boolean eaten_itself(){
