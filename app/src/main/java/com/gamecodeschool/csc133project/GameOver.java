@@ -86,7 +86,7 @@ public class GameOver {
         title.setGravity(Gravity.CENTER);
         title.setTextColor(Color.WHITE);
         title.setBackgroundColor(Color.BLACK);
-        title.setTypeface(Typeface.SANS_SERIF);
+        title.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
         builder.setCustomTitle(title);
     }
 
@@ -108,7 +108,7 @@ public class GameOver {
         scoreLayout.setPadding(padding, padding, padding, padding);
         TextView scoreView = new TextView(context);
         scoreView.setText(String.valueOf(score));
-        scoreView.setTypeface(Typeface.SANS_SERIF);
+        scoreView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
         scoreView.setTextColor(Color.WHITE);
         scoreView.setTextSize(40);
 
@@ -121,7 +121,9 @@ public class GameOver {
         Button btnRestart = new Button(context);
         btnRestart.setText("Restart");
         btnRestart.setTextColor(Color.WHITE);
-        btnRestart.setBackgroundColor(Color.parseColor("#8B008B"));
+        btnRestart.setBackgroundColor(Color.parseColor("#4db000"));
+        btnRestart.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+
         btnRestart.setPadding(20, 10, 20, 10);
         btnRestart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +148,8 @@ public class GameOver {
         Button btnExit = new Button(context);
         btnExit.setText("Exit");
         btnExit.setTextColor(Color.WHITE);
-        btnExit.setBackgroundColor(Color.parseColor("#8B0000")); // Dark red color
+        btnExit.setBackgroundColor(Color.parseColor("#ff0000"));
+        btnExit.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
         btnExit.setPadding(20, 10, 20, 10);
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override

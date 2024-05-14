@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.graphics.Typeface;
+
 
 import androidx.annotation.NonNull;
 
@@ -78,8 +80,10 @@ public class StartGame {
     restartButton.setText(" PLAY");
     restartButton.setTextSize(17);
     restartButton.setTextColor(Color.WHITE);
-    restartButton.setBackgroundColor(Color.RED);
-    //restartButton.setPadding(100, 200, 200, 100);
+    restartButton.setBackgroundColor(Color.parseColor("#ff0000"));
+    restartButton.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+
+      //restartButton.setPadding(100, 200, 200, 100);
     restartButton.setPadding(90, 80, 90, 80);
     restartButton.setOnClickListener(new View.OnClickListener() {
         @Override
