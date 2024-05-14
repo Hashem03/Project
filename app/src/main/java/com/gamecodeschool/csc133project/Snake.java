@@ -205,13 +205,7 @@ class Snake extends GameObject implements Movable, Collidable{
         return segmentLocations;
     }
     public void initiate_movement(ArrayList<Point> segmentLocations){
-        // Move the body
-        // Start at the back and move it
-        // to the position of the segment in front of it
         for (int i = segmentLocations.size() - 1; i > 0; i--) {
-
-            // Make it the same value as the next segment
-            // going forwards towards the head
             segmentLocations.get(i).x = segmentLocations.get(i - 1).x;
             segmentLocations.get(i).y = segmentLocations.get(i - 1).y;
         }
@@ -246,7 +240,7 @@ class Snake extends GameObject implements Movable, Collidable{
             case LEFT:
                 return Snake.Heading.UP;
             default:
-                return heading; // Default case to handle unknown headings
+                return heading;
         }
     }
 
@@ -261,7 +255,7 @@ class Snake extends GameObject implements Movable, Collidable{
             case RIGHT:
                 return Snake.Heading.UP;
             default:
-                return heading; // Default case to handle unknown headings
+                return heading;
         }
     }
 }
