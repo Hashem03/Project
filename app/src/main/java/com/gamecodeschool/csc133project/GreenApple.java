@@ -16,7 +16,7 @@ import java.util.Random;
 public class GreenApple extends GameObject {
 
   private Bitmap mBitmapGreenApple;
-  private Point mSpawnRange;
+  private final Point mSpawnRange;
 
   /**
    * Constructs a new GreenApple object.

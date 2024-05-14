@@ -11,8 +11,8 @@ import android.graphics.Color;
 import java.util.Random;
 
 public class Wall extends GameObject{
-    private Point mSpawnRange;
-    private Context mContext;
+    private final Point mSpawnRange;
+    private final Context mContext;
     private Bitmap mBitmapWall;
 
     Wall(Context context, Point sr, int size) {

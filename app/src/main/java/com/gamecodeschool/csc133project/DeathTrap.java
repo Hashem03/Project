@@ -16,7 +16,7 @@ import java.util.Random;
 public class DeathTrap extends GameObject {
 
     private Bitmap mBitmapDeathTrap;
-    private Point mSpawnRange;
+    private final Point mSpawnRange;
 
     public DeathTrap(Context context, Point sr, int size) {
         super(new Point(), size);

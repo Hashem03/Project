@@ -69,7 +69,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
     private final int mBlockSize;
     private final Context mContext;
     private final DeathTrap mDeathTrap;
-    private Banana mBanana;
+    private final Banana mBanana;
 
 
     // This is the constructor method that gets called

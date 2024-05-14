@@ -10,11 +10,11 @@ import android.os.Build;
 import java.io.IOException;
 
 public class BasicAudioStrategy implements AudioStrategy {
-    private SoundPool mSoundPool;
+    private final SoundPool mSoundPool;
     private int mEatSoundId;
     private int mCrashSoundId;
     private int mTakeDamageSoundId;
-    private Context mContext; // Member variable to store context
+    private final Context mContext; // Member variable to store context
 
     public BasicAudioStrategy(Context context) {
         mContext = context; // Assign the passed context to the member variable
