@@ -243,7 +243,15 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             mBanana.spawn();
         }
       if (mBanana.isVisible()) {
-        mSnake.checkDinner(mBanana.getLocation());
+          if(mSnake.checkDinner(mBanana.getLocation()))
+          {
+              mBanana.spawn();
+              audioStrategy.playEatSound();
+              Wall temp = new Wall(mContext, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), mBlockSize);
+              temp.spawn(mSnake,mApple);
+              wList.add(temp);
+              mScore = mScore + 2;
+          }
       }
 
 
@@ -334,7 +342,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             mApple.draw(mCanvas, mPaint);
             mGreenApple.draw(mCanvas, mPaint);
             mDeathTrap.draw(mCanvas, mPaint);
-
+            mBanana.draw(mCanvas, mPaint);
             mSnake.draw(mCanvas, mPaint);
 
             for(int i = 0; i< wList.size();i++)
