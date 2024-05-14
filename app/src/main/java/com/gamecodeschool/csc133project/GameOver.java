@@ -133,6 +133,14 @@ public class GameOver {
         layout.addView(btnRestart);
     }
 
+    /**
+     * Creates the exit button for the game over screen
+     *
+     * @param context the context of the application
+     * @param listener  the listener for the game over screen
+     * @param layout the layout of the game over screen
+     * @param dialog the dialog of the game over screen
+     */
     private static void create_exit_button(Context context,GameOverListener listener,LinearLayout layout, AlertDialog dialog ){
         // Create Exit button
         Button btnExit = new Button(context);
