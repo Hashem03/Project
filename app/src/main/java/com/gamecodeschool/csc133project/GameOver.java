@@ -14,12 +14,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+/**
+ * GameOver class displays the game over screen
+ * and allows the user to restart the game or exit the game
+ */
 public class GameOver {
     private int mScore;
     public GameOver(int mScore){
         this.mScore = this.mScore;
     }
 
+    /**
+     * Interface for the GameOverListener
+     * @param context the context of the application
+     * @param score the score of the game
+     * @param paused whether the game is paused
+     * @param listener the listener for the game over screen
+     */
     public static void showGameOverScreen(Context context, int score, boolean paused, GameOverListener listener) {
         ((Activity)context).runOnUiThread(new Runnable() {
             @Override
@@ -79,8 +90,13 @@ public class GameOver {
         builder.setCustomTitle(title);
     }
 
+    /**
+     * Creates the score layout
+     * @param context the context of the application
+     * @param score the score of the game
+     * @param layout the layout of the game over screen
+     */
     private static void create_score(Context context, int score, LinearLayout layout){
-        // Create Score Template
         LinearLayout scoreLayout = new LinearLayout(context);
         scoreLayout.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -117,6 +133,14 @@ public class GameOver {
         layout.addView(btnRestart);
     }
 
+    /**
+     * Creates the exit button for the game over screen
+     *
+     * @param context the context of the application
+     * @param listener  the listener for the game over screen
+     * @param layout the layout of the game over screen
+     * @param dialog the dialog of the game over screen
+     */
     private static void create_exit_button(Context context,GameOverListener listener,LinearLayout layout, AlertDialog dialog ){
         // Create Exit button
         Button btnExit = new Button(context);

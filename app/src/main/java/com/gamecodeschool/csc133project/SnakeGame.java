@@ -18,6 +18,10 @@ import android.view.SurfaceView;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * SnakeGame class extends SurfaceView and implements Runnable and GameOverListener
+ * This class is responsible for the game loop and updating the game objects
+ */
 class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
     // Objects for the game loop/thread
@@ -30,7 +34,8 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
     private boolean tap_to_play = true;
     private AudioStrategy audioStrategy;
-    private GreenApple mGreenApple;
+    private final GreenApple mGreenApple;
+
 
 
     // for playing sound effects
@@ -40,30 +45,31 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
     // The size in segments of the playable area
     private final int NUM_BLOCKS_WIDE = 40;
-    private int mNumBlocksHigh;
+    private final int mNumBlocksHigh;
 
     // How many points does the player have
     private int mScore;
 
     // Objects for drawing
     private Canvas mCanvas;
-    private SurfaceHolder mSurfaceHolder;
-    private Paint mPaint;
+    private final SurfaceHolder mSurfaceHolder;
+    private final Paint mPaint;
 
     // A snake ssss
-    private Snake mSnake;
+    private final Snake mSnake;
     // And an apple
-    private Apple mApple;
+    private final Apple mApple;
 
-    private List<Wall> wList;
+    private final List<Wall> wList;
 
-    private Wall mWall;
+    private final Wall mWall;
 
     //    Adding an Apple icon to be displayed beside the players score
-    private Apple appleIcon;
-    private int mBlockSize;
-    private Context mContext;
-    private DeathTrap mDeathTrap;
+    private final Apple appleIcon;
+    private final int mBlockSize;
+    private final Context mContext;
+    private final DeathTrap mDeathTrap;
+    private final Banana mBanana;
 
 
     // This is the constructor method that gets called
@@ -135,6 +141,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
                 150);
 
         mGreenApple = new GreenApple(context, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), blockSize);
+        mBanana = new Banana(context, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), blockSize);
 
 
     }
@@ -143,12 +150,15 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
     // Called to start a new game
     public void newGame() {
         wList.clear();
+        mBanana.setLastSpawnTime(System.currentTimeMillis());
         // reset the snake
         mSnake.reset(NUM_BLOCKS_WIDE, mNumBlocksHigh);
 
         // Get the apple ready for dinner
         mApple.spawn();
         mGreenApple.spawn(); // Spawn green apple
+        mBanana.spawn();
+
         mWall.spawn(mSnake, mApple);
         wList.add(mWall);
 
@@ -228,8 +238,24 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
     // Update all the game objects
     public void update() {
+        // banana spawn update logic
+        if(!mBanana.isVisible() && System.currentTimeMillis() - mBanana.getLastSpawnTime() > 5000) {
+            mBanana.spawn();
+        }
+      if (mBanana.isVisible()) {
+          if(mSnake.checkDinner(mBanana.getLocation()))
+          {
+              mBanana.spawn();
+              audioStrategy.playEatSound();
+              Wall temp = new Wall(mContext, new Point(NUM_BLOCKS_WIDE, mNumBlocksHigh), mBlockSize);
+              temp.spawn(mSnake,mApple);
+              wList.add(temp);
+              mScore = mScore + 2;
+          }
+      }
 
-        // Move the snake
+
+      // Move the snake
         mSnake.move();
         for(int i = 0; i< wList.size();i++)
         {
@@ -237,7 +263,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
                 audioStrategy.playCrashSound();
                 GameOver game_over = new GameOver(mScore);
                 tap_to_play = false;
-                game_over.showGameOverScreen(getContext(),mScore,mPaused, this); // displays the showGameOverScreen when the snake would collide to the wall
+                GameOver.showGameOverScreen(getContext(),mScore,mPaused, this); // displays the showGameOverScreen when the snake would collide to the wall
                 mPaused =true;
 
                 mPaused =true;
@@ -247,7 +273,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
         if (mSnake.checkDinner(mDeathTrap.getLocation())) {
             // Show game over if the snake eats the death trap
             GameOver game_over = new GameOver(mScore);
-            game_over.showGameOverScreen(getContext(), mScore, mPaused, this);
+            GameOver.showGameOverScreen(getContext(), mScore, mPaused, this);
             mPaused = true;
         }
         if(mSnake.checkDinner(mApple.getLocation())){
@@ -284,7 +310,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             audioStrategy.playCrashSound();
             GameOver game_over = new GameOver(mScore);
             tap_to_play = false;
-            game_over.showGameOverScreen(getContext(),mScore,mPaused, this);
+            GameOver.showGameOverScreen(getContext(),mScore,mPaused, this);
             mPaused =true;
 
         }
@@ -316,7 +342,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
             mApple.draw(mCanvas, mPaint);
             mGreenApple.draw(mCanvas, mPaint);
             mDeathTrap.draw(mCanvas, mPaint);
-
+            mBanana.draw(mCanvas, mPaint);
             mSnake.draw(mCanvas, mPaint);
 
             for(int i = 0; i< wList.size();i++)
@@ -346,7 +372,7 @@ class SnakeGame extends SurfaceView implements Runnable, GameOverListener{
 
 
                     // displays the showGameOverScreen when the snake would collide to the wall
-                    start_game.showStartGameScreen(getContext(), this);
+                    StartGame.showStartGameScreen(getContext(), this);
                     mPaused =true;
 
                 }

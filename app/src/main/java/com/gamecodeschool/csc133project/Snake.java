@@ -15,17 +15,17 @@ import java.util.List;
 class Snake extends GameObject implements Movable, Collidable{
 
     // The location in the grid of all the segments
-    private ArrayList<Point> segmentLocations;
+    private final ArrayList<Point> segmentLocations;
 
     // How big is each segment of the snake?
-    private int mSegmentSize;
+    private final int mSegmentSize;
 
     // How big is the entire grid
-    private Point mMoveRange;
+    private final Point mMoveRange;
 
     // Where is the centre of the screen
     // horizontally in pixels?
-    private int halfWayPoint;
+    private final int halfWayPoint;
 
     // For tracking movement Heading
     enum Heading {
@@ -44,8 +44,8 @@ class Snake extends GameObject implements Movable, Collidable{
     // A bitmap for the body
     private Bitmap mBitmapBody;
 
-    private Move move = new Move();
-    private DrawSnake drawsnake = new DrawSnake();
+    private final Move move = new Move();
+    private final DrawSnake drawsnake = new DrawSnake();
 
     Snake(Context context, Point mr, int ss) {
         super(mr, ss);
@@ -205,13 +205,7 @@ class Snake extends GameObject implements Movable, Collidable{
         return segmentLocations;
     }
     public void initiate_movement(ArrayList<Point> segmentLocations){
-        // Move the body
-        // Start at the back and move it
-        // to the position of the segment in front of it
         for (int i = segmentLocations.size() - 1; i > 0; i--) {
-
-            // Make it the same value as the next segment
-            // going forwards towards the head
             segmentLocations.get(i).x = segmentLocations.get(i - 1).x;
             segmentLocations.get(i).y = segmentLocations.get(i - 1).y;
         }
@@ -246,7 +240,7 @@ class Snake extends GameObject implements Movable, Collidable{
             case LEFT:
                 return Snake.Heading.UP;
             default:
-                return heading; // Default case to handle unknown headings
+                return heading;
         }
     }
 
@@ -261,7 +255,7 @@ class Snake extends GameObject implements Movable, Collidable{
             case RIGHT:
                 return Snake.Heading.UP;
             default:
-                return heading; // Default case to handle unknown headings
+                return heading;
         }
     }
 }

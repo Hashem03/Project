@@ -49,7 +49,7 @@ class Apple extends GameObject {
 
     // The range of values we can choose from
     // to spawn an apple
-    private Point mSpawnRange;
+    private final Point mSpawnRange;
     //private int mSize;
 
     // An image to represent the apple
