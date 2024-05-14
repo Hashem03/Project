@@ -55,8 +55,6 @@ public class Banana extends Fruit {
 
   /**
    * Sets the last spawn time of the banana.
-   *
-   * @param lastSpawnTime
    */
   public void setLastSpawnTime(long lastSpawnTime) {
     getLastSpawnTime = lastSpawnTime;
